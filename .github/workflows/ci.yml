@@ -39,9 +39,9 @@ jobs:
       - name: Deploy to S3
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            aws s3 sync . s3://${{ env.MAIN_BUCKET_NAME }} --delete
+            aws s3 sync out/ s3://${{ secrets.MAIN_BUCKET_NAME }} --delete --acl public-read
           elif [[ "${{ github.ref }}" == "refs/heads/uat" ]]; then
-            aws s3 sync . s3://${{ env.UAT_BUCKET_NAME }} --delete
+            aws s3 sync out/ s3://${{ secrets.UAT_BUCKET_NAME }} --delete --acl public-read
           else
             echo "Not a deployable branch"
           fi
