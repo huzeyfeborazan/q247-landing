@@ -28,9 +28,6 @@ jobs:
       
       - name: Build static site 
         run: npm run build
-      
-      - name: Debug bucket name
-        run: echo "${{ secrets.S3_BUCKET_NAME }}"
 
       - name: Sync to S3
         env:
@@ -39,9 +36,9 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            aws s3 sync out/ s3://${{ secrets.MAIN_BUCKET_NAME }} --delete --acl public-read
+            aws s3 sync out/ s3://${{ env.MAIN_BUCKET_NAME }} --delete --acl public-read
           elif [[ "${{ github.ref }}" == "refs/heads/uat" ]]; then
-            aws s3 sync out/ s3://${{ secrets.UAT_BUCKET_NAME }} --delete --acl public-read
+            aws s3 sync out/ s3://${{ env.UAT_BUCKET_NAME }} --delete --acl public-read
           else
             echo "Not a deployable branch"
           fi
