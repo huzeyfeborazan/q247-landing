@@ -1,115 +1,97 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import Head from 'next/head';
+import { Container, Typography, Button, Box } from '@mui/material';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+import HeroCarousel from "@/components/HeroCarousel";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const carouselTexts = [
+  'Ready to Play Every Hour?',
+  'Join Live Quizzes & Win!',
+  'Climb the Leaderboard!'
+];
 
 export default function Home() {
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % carouselTexts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Layout>
+      <Head>
+        <title>Q247 - The Ultimate Quiz App</title>
+        <meta name="description" content="Play timed quizzes every hour and climb the leaderboard!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      <main className="min-h-screen bg-gradient-to-tr from-[#3C0D99] via-[#5B21B6] to-[#7C3AED] text-center">
+
+        <HeroCarousel />
+
+        <Container maxWidth="sm" className="pt-24 px-4" id="home">
+          <Typography
+            variant="h2"
+            gutterBottom
+            sx={{
+              fontWeight: 'bold',
+              color: '#ffffff',
+              fontSize: {
+                xs: '2.5rem',
+                sm: '3rem',
+                md: '3.5rem',
+              },
+              transition: 'opacity 0.5s ease-in-out',
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            {carouselTexts[currentTextIndex]}
+          </Typography>
+
+          <Typography
+            variant="h6"
+            sx={{
+              color: '#e0e0e0',
+              mb: 4,
+              fontWeight: 400,
+            }}
           >
-            Read our docs
-          </a>
-        </div>
+            Compete in live quizzes every hour. Answer fast. Score high. Top the leaderboard.
+          </Typography>
+
+          <Button
+            variant="contained"
+            size="large"
+            href="#stats"
+            sx={{
+              backgroundColor: '#facc15',
+              color: '#000',
+              fontWeight: 'bold',
+              '&:hover': {
+                backgroundColor: '#eab308',
+              },
+            }}
+          >
+            View Statistics
+          </Button>
+        </Container>
+        
+        <Box id="about" className="text-white py-32 px-6">
+          <Typography variant="h4" gutterBottom>About Q247</Typography>
+          <Typography variant="body1" maxWidth="md" margin="auto">
+            Q247 is your hourly challenge to test your knowledge and speed. Join live quizzes, compete with others, and top the leaderboard to win glory.
+          </Typography>
+        </Box>
+
+        <Box id="stats" className="text-white py-32 px-6 bg-purple-900">
+          <Typography variant="h4" gutterBottom>Leaderboard Stats</Typography>
+          <Typography variant="body1" maxWidth="md" margin="auto">
+            Track your daily, weekly, and monthly progress against other players. Get live rankings and stay ahead.
+          </Typography>
+        </Box>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </Layout>
   );
 }
