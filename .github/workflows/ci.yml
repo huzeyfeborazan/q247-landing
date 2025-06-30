@@ -36,9 +36,9 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            aws s3 sync out/ s3://${{ env.MAIN_BUCKET_NAME }} --delete --acl public-read
+            aws s3 sync out/ s3://${{ env.MAIN_BUCKET_NAME }} --delete
           elif [[ "${{ github.ref }}" == "refs/heads/uat" ]]; then
-            aws s3 sync out/ s3://${{ env.UAT_BUCKET_NAME }} --delete --acl public-read
+            aws s3 sync out/ s3://${{ env.UAT_BUCKET_NAME }} --delete
           else
             echo "Not a deployable branch"
           fi
